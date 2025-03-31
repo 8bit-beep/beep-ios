@@ -1,32 +1,35 @@
-import SwiftUI
+import Foundation
 import CoreNFC
 
-class NFCReader: NSObject, ObservableObject, NFCNDEFReaderSessionDelegate {
-    @Published var scannedMessage: String?
-    
-    private var session: NFCNDEFReaderSession?
-    
+class NFCManager: NSObject, NFCNDEFReaderSessionDelegate, ObservableObject {
+    var session: NFCNDEFReaderSession?
+
     func startScanning() {
         guard NFCNDEFReaderSession.readingAvailable else {
-            print("NFC 지원되지 않음")
+            print("NFC를 사용할 수 없습니다.")
             return
         }
-        
+
         session = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: true)
         session?.alertMessage = "NFC 태그를 스캔하세요."
         session?.begin()
     }
-    
+
     func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
-        if let record = messages.first?.records.first,
-           let payloadText = String(data: record.payload.advanced(by: 3), encoding: .utf8) {
-            DispatchQueue.main.async {
-                self.scannedMessage = payloadText
+        for message in messages {
+            for record in message.records {
+                if let text = String(data: record.payload, encoding: .utf8) {
+                    DispatchQueue.main.async {
+                        print("NFC 데이터: \(text)")
+                    }
+                }
             }
         }
     }
-    
+
     func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
-        print("NFC 스캔 실패:", error.localizedDescription)
+        DispatchQueue.main.async {
+            print("NFC 읽기 실패: \(error.localizedDescription)")
+        }
     }
 }

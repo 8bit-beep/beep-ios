@@ -11,7 +11,7 @@ struct TabHeader: View {
     var title: String
     
     var body: some View {
-        HStack(alignment: .center){
+        HStack(alignment: .bottom){
             Text(title).fontWeight(.bold).font(.system(size: 30)).foregroundStyle(Color.dark)
             Spacer()
         }

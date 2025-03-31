@@ -11,7 +11,7 @@ struct TabbarView: View {
     @State var currentTab: Tab = .home
     
     var body: some View {
-        ZStack{
+        ZStack {
             VStack(spacing: 0){
                 switch currentTab {
                 case .home:
@@ -22,7 +22,7 @@ struct TabbarView: View {
                 case .shift:
                     VStack{
                         TabHeader(title: "실이동")
-                        Home()
+                        Shift()
                     }
                 case .profile:
                     VStack{
@@ -36,9 +36,9 @@ struct TabbarView: View {
                 Spacer()
                 Tabbar(currentTab: $currentTab)
             }
-            
         }
-        .background(Color.background).edgesIgnoringSafeArea(.bottom)
+        .background(Color.background)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

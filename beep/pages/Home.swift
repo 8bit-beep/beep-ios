@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Home: View {
-    @StateObject private var nfcReader = NFCReader()
+    @StateObject private var nfcReader = NFCManager()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -37,12 +37,6 @@ struct Home: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.serveColor)
                         .cornerRadius(10)
-                        
-                        if let scannedMessage = nfcReader.scannedMessage {
-                                        Text("스캔된 데이터: \(scannedMessage)")
-                                            .font(.headline)
-                                            .padding()
-                                    }
                         
                     }
                 }
