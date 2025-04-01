@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct Home: View {
-    @StateObject private var nfcReader = NFCManager()
+    @StateObject private var nfcReader = NFCReader()
+    @EnvironmentObject private var toastManager: ToastManager
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -26,7 +27,13 @@ struct Home: View {
                     
                     
                     Button (action: {
-                        nfcReader.startScanning()
+                        nfcReader.read()
+                        
+                        nfcReader.onRead = { scannedText in
+                            print("스캔된 데이터: \(scannedText)")
+                            toastManager.showToast(message: "출석되었습니다.")
+                        }
+                        
                     }) {
                         VStack{
                             Text("출석하기")
@@ -67,7 +74,7 @@ struct Home: View {
                             Text("출석 장소 :")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(Color.black)
-                            Text("LAB 21, 227:06")
+                            Text("LAB 21, 22")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(Color.black)
                             Spacer()

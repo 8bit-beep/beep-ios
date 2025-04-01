@@ -2,7 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSNFCScanUsageDescription</key>
+	<string>NFC 태그를 사용하여 출석체크를 진행합니다.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pretendard-Black.ttf</string>
+		<string>Pretendard-Bold.ttf</string>
+		<string>Pretendard-ExtraBold.ttf</string>
+		<string>Pretendard-ExtraLight.ttf</string>
+		<string>Pretendard-Light.ttf</string>
+		<string>Pretendard-Medium.ttf</string>
+		<string>Pretendard-Regular.ttf</string>
+		<string>Pretendard-SemiBold.ttf</string>
+		<string>Pretendard-Thin.ttf</string>
+	</array>
     <key>NFCReaderUsageDescription</key>
-    <string>NFC 태그를 스캔하기 위해 필요합니다.</string>
+    <string>NFC 태그를 읽기 위해 NFC 접근 권한이 필요합니다.</string>
+    <key>com.apple.developer.nfc.readersession.formats</key>
+    <array>
+       <string>NDEF</string>
+    </array>
 </dict>
 </plist>

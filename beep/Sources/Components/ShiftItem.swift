@@ -29,6 +29,7 @@ struct ShiftItem: View {
         .frame(maxWidth: .infinity)
         .background(Color(hex: "FBFBFB"))
         .cornerRadius(20)
+        .shadow(color: Color(hex: "FBFBFB"), radius: 5)
     }
 }
 

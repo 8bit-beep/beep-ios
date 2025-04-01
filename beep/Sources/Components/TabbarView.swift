@@ -1,14 +1,8 @@
-//
-//  TabbarView.swift
-//  beep
-//
-//  Created by cher1shRXD on 3/29/25.
-//
-
 import SwiftUI
 
 struct TabbarView: View {
     @State var currentTab: Tab = .home
+    @StateObject private var toastManager = ToastManager()
     
     var body: some View {
         ZStack {
@@ -18,6 +12,7 @@ struct TabbarView: View {
                     VStack{
                         MainHeader()
                         Home()
+                            .environmentObject(toastManager)
                     }
                 case .shift:
                     VStack{
@@ -32,6 +27,7 @@ struct TabbarView: View {
                 }
             }
             .padding(.horizontal, 16)
+
             VStack(spacing: 0){
                 Spacer()
                 Tabbar(currentTab: $currentTab)
@@ -41,6 +37,7 @@ struct TabbarView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 }
+
 
 #Preview {
     TabbarView()

@@ -48,8 +48,8 @@ struct Shift: View {
         .overlay {
             VStack {
                 Spacer()
-                Button {
-                    
+                NavigationLink {
+                    RegisterShift()
                 } label: {
                     HStack(alignment: .center){
                         Text("신청하기")

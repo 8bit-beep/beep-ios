@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ShiftHeader: View {
     var body: some View {
-        HStack{
+        HStack {
             
         }
     }

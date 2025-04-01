@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct Profile: View {
+    @AppStorage("accessToken") var accessTokenStore: String?
+    @AppStorage("refreshToken") var refreshTokenStore: String?
+    
     var body: some View {
         VStack(alignment: .center, spacing: 32){
             VStack(spacing: 18){
@@ -54,9 +57,10 @@ struct Profile: View {
             .cornerRadius(10)
             .shadow(color: .black.opacity(0.05), radius: 5)
             
-            Button(action: {
-                
-            }){
+            Button{
+                accessTokenStore = nil
+                refreshTokenStore = nil
+            } label: {
                 HStack(alignment: .center){
                     Text("로그아웃")
                         .font(.system(size: 16, weight: .semibold))

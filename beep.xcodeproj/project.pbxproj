@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D1CAC0FE2D9C1D9A00F4FA0D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = D1CAC0FD2D9C1D9A00F4FA0D /* Moya */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D111C5542D9774F400BC50D3 /* beep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1CAC0FE2D9C1D9A00F4FA0D /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = beep;
 			packageProductDependencies = (
+				D1CAC0FD2D9C1D9A00F4FA0D /* Moya */,
 			);
 			productName = beep;
 			productReference = D111C5542D9774F400BC50D3 /* beep.app */;
@@ -99,14 +105,17 @@
 				};
 			};
 			buildConfigurationList = D111C54F2D9774F400BC50D3 /* Build configuration list for PBXProject "beep" */;
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				ko,
 			);
 			mainGroup = D111C54B2D9774F400BC50D3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D1CAC0FC2D9C1D9A00F4FA0D /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D111C5552D9774F400BC50D3 /* Products */;
 			projectDirPath = "";
@@ -262,10 +271,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = beep/beep.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"beep/Preview Content\"";
-				DEVELOPMENT_TEAM = U4VGJDX962;
+				DEVELOPMENT_ASSET_PATHS = "\"beep/Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = C22QH9P7HR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beep/Info.plist;
@@ -274,13 +286,17 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.cher1shrxd.beep;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.cher1shrxd.beep-mhs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Beep iOS development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -292,10 +308,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = beep/beep.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"beep/Preview Content\"";
-				DEVELOPMENT_TEAM = U4VGJDX962;
+				DEVELOPMENT_ASSET_PATHS = "\"beep/Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = C22QH9P7HR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beep/Info.plist;
@@ -304,13 +323,17 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.cher1shrxd.beep;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.cher1shrxd.beep-mhs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Beep iOS development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -339,6 +362,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1CAC0FC2D9C1D9A00F4FA0D /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D1CAC0FD2D9C1D9A00F4FA0D /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1CAC0FC2D9C1D9A00F4FA0D /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D111C54C2D9774F400BC50D3 /* Project object */;
 }
