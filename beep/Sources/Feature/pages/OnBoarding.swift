@@ -25,15 +25,15 @@ struct OnBoarding: View {
                     .environmentObject(toastManager)
             } label: {
                 HStack(alignment: .center){
-                    Text("도담도담으로 로그인하기")
-                        .font(.system(size: 20, weight: .bold))
+                    Text("도담도담으로 시작하기")
+                        .font(.system(size: 18, weight: .bold))
                         .foregroundColor(Color.white)
                     
                     Text(":D")
-                        .font(.system(size: 32, weight: .heavy))
+                        .font(.system(size: 28, weight: .heavy))
                         .foregroundColor(Color.white)
                 }
-                .padding(12)
+                .padding(16)
                 .frame(maxWidth: .infinity)
                 .background(Color(hex: "0083F0"))
                 .cornerRadius(10)

@@ -13,9 +13,12 @@ struct RegisterShift: View {
     @State var reason: String = ""
     @State private var isPresented: Bool = false
     
-    var fruits = ["apple", "banana", "orange", "kiwi"]
-    @State private var selectedFruit: String = "banana"
+    var rooms = Room()
+    @State private var selectedRoom: String = "이동할 실을 선택해주세요."
     
+    var periods: [Int] = [8,9,10,11]
+    @State private var selectedStartPeriod: Int = 8
+    @State private var selectedEndPeriod: Int = 11
     
     var body: some View {
         VStack(spacing: 0){
@@ -48,6 +51,7 @@ struct RegisterShift: View {
                                 .font(.system(size: 14))
                                 .padding(4)
                                 .background(RoundedRectangle(cornerRadius: 10).stroke(Color.grey, lineWidth: 0.5))
+                                .hideKeyBoard()
                             if reason.isEmpty {
                                 Text("이동 사유를 입력해주세요.")
                                     .padding(.top, 12)
@@ -65,16 +69,16 @@ struct RegisterShift: View {
                             .font(.system(size: 16, weight: .semibold))
                         
                         Menu {
-                            ForEach(fruits, id: \.self) { fruit in
+                            ForEach(rooms.roomList, id: \.id) { room in
                                 Button {
-                                    selectedFruit = fruit
+                                    selectedRoom = room.name
                                 } label: {
-                                    Text(fruit)
+                                    Text(rooms.parseRoomName(room.name))
                                 }
                             }
                         } label: {
                             HStack {
-                                Text(selectedFruit)
+                                Text(rooms.parseRoomName(selectedRoom))
                                     .foregroundColor(.primary)
                                 Spacer()
                                 Image(systemName: "chevron.down")
@@ -99,16 +103,19 @@ struct RegisterShift: View {
                         
                         HStack(spacing: 16){
                             Menu {
-                                ForEach(fruits, id: \.self) { fruit in
+                                ForEach(periods, id: \.self) { period in
                                     Button {
-                                        selectedFruit = fruit
+                                        selectedStartPeriod = period
+                                        if selectedStartPeriod > selectedEndPeriod {
+                                            selectedEndPeriod = period
+                                        }
                                     } label: {
-                                        Text(fruit)
+                                        Text("\(period)교시")
                                     }
                                 }
                             } label: {
                                 HStack {
-                                    Text(selectedFruit)
+                                    Text("\(selectedStartPeriod)교시")
                                         .foregroundColor(.primary)
                                     Spacer()
                                     Image(systemName: "chevron.down")
@@ -128,16 +135,19 @@ struct RegisterShift: View {
                             Text("~")
                             
                             Menu {
-                                ForEach(fruits, id: \.self) { fruit in
-                                    Button {
-                                        selectedFruit = fruit
-                                    } label: {
-                                        Text(fruit)
+                                ForEach(periods, id: \.self) { period in
+                                    if period >= selectedStartPeriod {
+                                        Button {
+                                            selectedEndPeriod = period
+                                        } label: {
+                                            Text("\(period)교시")
+                                        }
                                     }
+                                    
                                 }
                             } label: {
                                 HStack {
-                                    Text(selectedFruit)
+                                    Text("\(selectedEndPeriod)교시")
                                         .foregroundColor(.primary)
                                     Spacer()
                                     Image(systemName: "chevron.down")

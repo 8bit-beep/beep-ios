@@ -5,6 +5,10 @@ enum Api {
     case getMe
     case login(dauthId: String, dauthPw: String)
     case getToken(code: String)
+    case reissueToken(refreshToken: String)
+    case attend(room: String)
+    case changeRoom(room: String)
+    case getShift
 }
 
 extension Api: TargetType {
@@ -19,27 +23,38 @@ extension Api: TargetType {
     var path: String {
         switch self {
         case .getMe:
-            return "/users"
+            return "/users/me"
         case .login:
             return "/auth/login"
         case .getToken:
             return "/dauth/login"
+        case .reissueToken:
+            return "/auth/refresh"
+        case .attend:
+            return "/attends"
+        case .changeRoom:
+            return "/users/me/room"
+        case .getShift:
+            return "/shifts/me"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getMe:
+        case .getMe, .getShift:
             return .get
-        case .login, .getToken:
+        case .login, .getToken, .reissueToken, .attend:
             return .post
+        case .changeRoom:
+            return .patch
         }
     }
     
     var task: Task {
         switch self {
-        case .getMe:
+        case .getMe, .getShift:
             return .requestPlain
+            
         case .login(let dauthId, let duathPw):
             return .requestParameters(
                 parameters: [
@@ -48,11 +63,32 @@ extension Api: TargetType {
                     "clientId": "575fe863c46f4126a9c17e4af4b82d5d351bdff5507d454086a88edd19afa723",
                     "redirectUrl": "https://beep.cher1shrxd.me/callback/dauth"
                 ], encoding: JSONEncoding.default)
+            
         case .getToken(let code):
             return .requestParameters(
                 parameters: [
                     "code": code,
                 ], encoding: JSONEncoding.default)
+            
+        case .reissueToken(let refreshToken):
+            return .requestParameters(
+                parameters: [
+                    "refreshToken": refreshToken
+                ],
+                encoding: JSONEncoding.default)
+            
+        case .attend(room: let room):
+            return .requestParameters(
+                parameters: [
+                    "room": room
+                ], encoding: JSONEncoding.default)
+        
+        case .changeRoom(let room):
+            return .requestParameters(
+                parameters: [
+                    "roomName": room
+                ], encoding: JSONEncoding.default)
+            
         }
     }
     

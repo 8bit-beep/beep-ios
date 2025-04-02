@@ -23,6 +23,7 @@ struct TabbarView: View {
                     VStack{
                         TabHeader(title: "프로필")
                         Profile()
+                            .environmentObject(toastManager)
                     }
                 }
             }
@@ -35,6 +36,14 @@ struct TabbarView: View {
         }
         .background(Color.background)
         .edgesIgnoringSafeArea(.bottom)
+        .overlay{
+            VStack(alignment: .leading, spacing: 0){
+                ToastContainer()
+                    .environmentObject(toastManager)
+                Spacer()
+            }
+            .padding(.top, 12)
+        }
     }
 }
 

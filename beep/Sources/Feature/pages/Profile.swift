@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct Profile: View {
-    @AppStorage("accessToken") var accessTokenStore: String?
-    @AppStorage("refreshToken") var refreshTokenStore: String?
+    @StateObject private var viewModel = UserViewModel()
+    @EnvironmentObject private var toastManager: ToastManager
+    @State private var modalView: Bool = true;
+    let room = Room()
     
     var body: some View {
         VStack(alignment: .center, spacing: 32){
@@ -19,9 +21,15 @@ struct Profile: View {
                         .font(.system(size: 16))
                         .foregroundColor(Color.black)
                     Spacer()
-                    Text("김태우")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color.black)
+                    if let username = viewModel.userData?.data.username {
+                        Text(username)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.black)
+                    } else {
+                        Text("--")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.black)
+                    }
                     
                 }
                 
@@ -30,9 +38,17 @@ struct Profile: View {
                         .font(.system(size: 16))
                         .foregroundColor(Color.black)
                     Spacer()
-                    Text("2학년 2반 10번")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color.black)
+                    if let grade = viewModel.userData?.data.grade,
+                       let cls = viewModel.userData?.data.cls,
+                       let num = viewModel.userData?.data.num {
+                        Text("\(grade)학년 \(cls)반 \(num)번")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.black)
+                    } else {
+                        Text("--")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.black)
+                    }
                     
                 }
                 
@@ -41,10 +57,19 @@ struct Profile: View {
                         .font(.system(size: 16))
                         .foregroundColor(Color.black)
                     Spacer()
-                    Text("LAB 21, 22실")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color.black)
-                    Button(action: {}) {
+                    if let fixedRoomName = viewModel.userData?.data.fixedRoom?.name {
+                        Text(room.parseRoomName(fixedRoomName))
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.black)
+                    } else {
+                        Text("--")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.black)
+                    }
+                    NavigationLink {
+                        ChangeRoom()
+                            .environmentObject(toastManager)
+                    } label: {
                         Image(systemName: "pencil")
                     }
                     .foregroundStyle(Color.dark)
@@ -58,8 +83,8 @@ struct Profile: View {
             .shadow(color: .black.opacity(0.05), radius: 5)
             
             Button{
-                accessTokenStore = nil
-                refreshTokenStore = nil
+                UserDefaults.standard.removeObject(forKey: "accessToken")
+                UserDefaults.standard.removeObject(forKey: "refreshToken")
             } label: {
                 HStack(alignment: .center){
                     Text("로그아웃")
@@ -75,7 +100,11 @@ struct Profile: View {
                 
             }
             Spacer()
-        }.padding(.top, 16)
+        }
+        .padding(.top, 16)
+        .onAppear {
+            viewModel.fetchUserData()
+        }
     }
 }
 

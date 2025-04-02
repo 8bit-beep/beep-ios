@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D1CAC0FE2D9C1D9A00F4FA0D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = D1CAC0FD2D9C1D9A00F4FA0D /* Moya */; };
+		D1CAC11F2D9D023900F4FA0D /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D1CAC11E2D9D023900F4FA0D /* Shimmer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1CAC11F2D9D023900F4FA0D /* Shimmer in Frameworks */,
 				D1CAC0FE2D9C1D9A00F4FA0D /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +86,7 @@
 			name = beep;
 			packageProductDependencies = (
 				D1CAC0FD2D9C1D9A00F4FA0D /* Moya */,
+				D1CAC11E2D9D023900F4FA0D /* Shimmer */,
 			);
 			productName = beep;
 			productReference = D111C5542D9774F400BC50D3 /* beep.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D1CAC0FC2D9C1D9A00F4FA0D /* XCRemoteSwiftPackageReference "Moya" */,
+				D1CAC11D2D9D023900F4FA0D /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D111C5552D9774F400BC50D3 /* Products */;
@@ -372,6 +376,14 @@
 				minimumVersion = 15.0.3;
 			};
 		};
+		D1CAC11D2D9D023900F4FA0D /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -379,6 +391,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D1CAC0FC2D9C1D9A00F4FA0D /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		D1CAC11E2D9D023900F4FA0D /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1CAC11D2D9D023900F4FA0D /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

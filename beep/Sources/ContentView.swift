@@ -10,12 +10,12 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var toastManager = ToastManager()
     @AppStorage("accessToken") var accessToken: String?
-    @AppStorage("refreshToken") var refreshToken: String?
     
     var body: some View {
         NavigationView {
             if accessToken != nil {
                 TabbarView()
+                    .environmentObject(toastManager)
             } else {
                 OnBoarding()
                     .environmentObject(toastManager)

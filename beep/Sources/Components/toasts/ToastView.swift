@@ -24,7 +24,7 @@ struct ToastView: View {
                         .foregroundStyle(toastType == .success ? Color.green : Color.red)
                     VStack(alignment: .leading, spacing: 4) {
                         Text(message)
-                            .font(.system(size: 18, weight: .semibold))
+                            .font(.system(size: 18))
                         
                         if (!detail.isEmpty) {
                             Text(detail)

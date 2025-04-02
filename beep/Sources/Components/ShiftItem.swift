@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ShiftItem: View {
+    let shiftData: ShiftModel
+    
     var body: some View {
         HStack{
             VStack(alignment: .leading, spacing: 4){
                 Text("LAB 21, 22실 -> LAB 2실")
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
                 Text("10교시 - 11교시")
-                    .font(.system(size: 15, weight: .medium))
+                    .font(.system(size: 14, weight: .medium))
                 Text("안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요")
                     .font(.system(size: 12, weight: .light))
             }
@@ -31,8 +33,4 @@ struct ShiftItem: View {
         .cornerRadius(20)
         .shadow(color: Color(hex: "FBFBFB"), radius: 5)
     }
-}
-
-#Preview {
-    ShiftItem()
 }
