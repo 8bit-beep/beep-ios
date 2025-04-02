@@ -10,7 +10,9 @@ import Shimmer
 
 struct Shift: View {
     @StateObject private var viewModel = ShiftViewModel()
-    
+    @EnvironmentObject var toastManager: ToastManager
+    @State var isUpdated: Bool = false
+
     var body: some View {
         VStack(spacing: 0){
             VStack(spacing: 0){
@@ -31,16 +33,17 @@ struct Shift: View {
                                     .foregroundColor(Color.grey)
                             }
                             ForEach(data, id:\.id) { shiftData in
-                                ShiftItem(shiftData: shiftData)
+                                ShiftItem(shiftData: shiftData, isUpdated: $isUpdated)
+                                    .environmentObject(toastManager)
                             }
                         } else {
                             HStack{
                                 VStack(alignment: .leading, spacing: 4){
-                                    Text("fdsfdsfds")
+                                    Text("placeholder")
                                         .font(.system(size: 16, weight: .semibold))
-                                    Text("fdfds")
+                                    Text("placeholder")
                                         .font(.system(size: 14, weight: .medium))
-                                    Text("안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요")
+                                    Text("placeholder")
                                         .font(.system(size: 12, weight: .light))
                                 }
                                 .redacted(reason: .placeholder)
@@ -62,11 +65,11 @@ struct Shift: View {
                             
                             HStack{
                                 VStack(alignment: .leading, spacing: 4){
-                                    Text("fdsfdsfds")
+                                    Text("placeholder")
                                         .font(.system(size: 16, weight: .semibold))
-                                    Text("fdfds")
+                                    Text("placeholder")
                                         .font(.system(size: 14, weight: .medium))
-                                    Text("안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요")
+                                    Text("placeholder")
                                         .font(.system(size: 12, weight: .light))
                                 }
                                 .redacted(reason: .placeholder)
@@ -102,6 +105,7 @@ struct Shift: View {
             
             NavigationLink {
                 RegisterShift()
+                    .environmentObject(toastManager)
             } label: {
                 HStack(alignment: .center){
                     Text("신청하기")
@@ -118,6 +122,13 @@ struct Shift: View {
         .padding(.bottom, 106)
         .onAppear{
             viewModel.fetchShiftData()
+        }
+        .onChange(of: isUpdated) { _ in
+            if isUpdated {
+                viewModel.fetchShiftData()
+                isUpdated.toggle()
+            }
+            
         }
     }
 }

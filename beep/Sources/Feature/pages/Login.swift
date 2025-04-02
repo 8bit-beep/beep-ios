@@ -71,25 +71,27 @@ struct Login: View {
                                         UserDefaults.standard.setValue(tokenData.accessToken, forKey: "accessToken")
                                         UserDefaults.standard.setValue(tokenData.refreshToken, forKey: "refreshToken")
                                         print(tokenData.accessToken)
-                                        
+                                        toastManager.showToast(message: "로그인 성공")
                                     } catch{
-                                        toastManager.showToast(message: "네트워크 에러", type: .error)
+                                        toastManager.showToast(message: "로그인 실패", type: .error, detail:"네트워크 에러")
                                     }
+                                    break
                                 case .failure:
-                                    toastManager.showToast(message: "네트워크 에러", type: .error)
+                                    toastManager.showToast(message: "로그인 실패", type: .error, detail:"네트워크 에러")
+                                    break
                                 }
                                 loading = false
                             }
-                            toastManager.showToast(message: "로그인 성공")
                             
                         } catch {
-                            toastManager.showToast(message: "파싱 에러", type: .error)
+                            toastManager.showToast(message: "로그인 실패", type: .error, detail:"아이디, 비밀번호를 확인해주세요.")
                             loading = false
                         }
                         
                     case .failure:
-                        toastManager.showToast(message: "네트워크 에러", type: .error)
+                        toastManager.showToast(message: "로그인 실패", type: .error, detail:"네트워크 에러")
                         loading = false
+                        break
                     }
                 }
                 

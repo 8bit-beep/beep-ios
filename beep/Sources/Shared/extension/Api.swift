@@ -9,6 +9,9 @@ enum Api {
     case attend(room: String)
     case changeRoom(room: String)
     case getShift
+    case createShift(room: String, reason: String, period: Int)
+    case deleteShift(id: String)
+    case cancelAttend
 }
 
 extension Api: TargetType {
@@ -36,6 +39,12 @@ extension Api: TargetType {
             return "/users/me/room"
         case .getShift:
             return "/shifts/me"
+        case .createShift:
+            return "/shifts"
+        case .deleteShift(let id):
+            return "/shifts/\(id)"
+        case .cancelAttend:
+            return "/attends/cancel"
         }
     }
     
@@ -43,16 +52,18 @@ extension Api: TargetType {
         switch self {
         case .getMe, .getShift:
             return .get
-        case .login, .getToken, .reissueToken, .attend:
+        case .login, .getToken, .reissueToken, .attend, .createShift, .cancelAttend:
             return .post
         case .changeRoom:
             return .patch
+        case .deleteShift:
+            return .delete
         }
     }
     
     var task: Task {
         switch self {
-        case .getMe, .getShift:
+        case .getMe, .getShift, .deleteShift, .cancelAttend:
             return .requestPlain
             
         case .login(let dauthId, let duathPw):
@@ -89,6 +100,19 @@ extension Api: TargetType {
                     "roomName": room
                 ], encoding: JSONEncoding.default)
             
+        case .createShift(let room, let reason, let period):
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.locale = Locale(identifier: "ko_KR") 
+            let currentDate = formatter.string(from: Date())
+            
+            return .requestParameters(
+                parameters: [
+                    "room": room,
+                    "reason": reason,
+                    "period": period,
+                    "date": currentDate
+                ], encoding: JSONEncoding.default)
         }
     }
     

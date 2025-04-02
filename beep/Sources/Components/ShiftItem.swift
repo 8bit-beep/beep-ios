@@ -6,23 +6,46 @@
 //
 
 import SwiftUI
+import Moya
 
 struct ShiftItem: View {
     let shiftData: ShiftModel
+    @Binding var isUpdated: Bool
+    let room = Room()
+    let provider = MoyaProvider<Api>(session: Session(interceptor: ApiInterceptor()))
+    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         HStack{
             VStack(alignment: .leading, spacing: 4){
-                Text("LAB 21, 22실 -> LAB 2실")
-                    .font(.system(size: 16, weight: .semibold))
-                Text("10교시 - 11교시")
-                    .font(.system(size: 14, weight: .medium))
-                Text("안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요")
-                    .font(.system(size: 12, weight: .light))
+                if let fixedRoom = shiftData.fixedRoom,
+                   let shiftRoom = shiftData.shiftRoom {
+                    Text("\(room.parseRoomName(fixedRoom)) -> \(room.parseRoomName(shiftRoom))")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                
+                if let period = shiftData.period {
+                    Text("\(period)교시")
+                        .font(.system(size: 14, weight: .medium))
+                }
+                    
+                if let reason = shiftData.reason {
+                    Text(reason)
+                        .font(.system(size: 12, weight: .light))
+                }
+                
             }
             Spacer()
             Button {
-                
+                provider.request(.deleteShift(id: shiftData.id!)) { result in
+                    switch result {
+                    case .success:
+                        self.isUpdated.toggle()
+                        toastManager.showToast(message: "삭제 성공", detail: "실 이동 요청이 삭제되었습니다.")
+                    case .failure:
+                        toastManager.showToast(message: "삭제 실패", type: .error, detail: "네트워크 에러")
+                    }
+                }
             } label: {
                 Image("X").resizable().frame(width: 16, height: 16)
             }

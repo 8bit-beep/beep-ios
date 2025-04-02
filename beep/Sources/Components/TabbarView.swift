@@ -18,6 +18,7 @@ struct TabbarView: View {
                     VStack{
                         TabHeader(title: "실이동")
                         Shift()
+                            .environmentObject(toastManager)
                     }
                 case .profile:
                     VStack{

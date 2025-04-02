@@ -1,5 +1,5 @@
 //
-//  ChangeRoom.swift
+//  RegisterRoom.swift
 //  beep
 //
 //  Created by cher1shRXD on 4/2/25.
@@ -8,12 +8,12 @@
 import SwiftUI
 import Moya
 
-struct ChangeRoom: View {
+struct RegisterRoom: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var toastManager: ToastManager
     
     var rooms = Room()
-    @State private var selectedRoom: String = "변경할 실을 선택해주세요."
+    @State private var selectedRoom: String = "등록할 실을 선택해주세요."
     
     let provider = MoyaProvider<Api>(session: Session(interceptor: ApiInterceptor()))
     
@@ -25,7 +25,7 @@ struct ChangeRoom: View {
                 } label: {
                     Image("ChevronLeft").resizable().frame(width: 20, height: 24)
                 }
-                Text("실 변경하기").fontWeight(.bold).font(.system(size: 20)).foregroundStyle(Color.dark)
+                Text("실 등록하기").fontWeight(.bold).font(.system(size: 20)).foregroundStyle(Color.dark)
                 Spacer()
             }
             
@@ -60,22 +60,22 @@ struct ChangeRoom: View {
             
             Button {
                 provider.request(.changeRoom(room: selectedRoom)) { result in
-                    if(selectedRoom == "변경할 실을 선택해주세요.") {
+                    if(selectedRoom == "등록할 실을 선택해주세요.") {
                         dismiss()
                     }
                     switch result {
                     case .success:
-                        toastManager.showToast(message: "실 변경 성공", detail: "\(rooms.parseRoomName(selectedRoom))로 변경되었습니다.")
+                        toastManager.showToast(message: "실 등록 성공", detail: "\(rooms.parseRoomName(selectedRoom))로 등록되었습니다.")
                         dismiss()
                         break
                     case .failure:
-                        toastManager.showToast(message: "실 변경 실패", detail: "네트워크 에러")
+                        toastManager.showToast(message: "실 등록 실패", detail: "네트워크 에러")
                         break
                     }
                 }
             } label: {
                 HStack(alignment: .center){
-                    Text("변경하기")
+                    Text("등록하기")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color.white)
                 }
@@ -96,5 +96,5 @@ struct ChangeRoom: View {
 }
 
 #Preview {
-    ChangeRoom()
+    RegisterRoom()
 }

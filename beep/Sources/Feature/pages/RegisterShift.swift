@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Moya
 
 struct RegisterShift: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var toastManager: ToastManager
+    @StateObject private var viewModel = UserViewModel()
     
     @State var reason: String = ""
     @State private var isPresented: Bool = false
@@ -16,9 +19,11 @@ struct RegisterShift: View {
     var rooms = Room()
     @State private var selectedRoom: String = "이동할 실을 선택해주세요."
     
-    var periods: [Int] = [8,9,10,11]
+    var periods: [Int] = [8, 9, 10, 11]
     @State private var selectedStartPeriod: Int = 8
     @State private var selectedEndPeriod: Int = 11
+    
+    let provider = MoyaProvider<Api>(session: Session(interceptor: ApiInterceptor()))
     
     var body: some View {
         VStack(spacing: 0){
@@ -70,10 +75,13 @@ struct RegisterShift: View {
                         
                         Menu {
                             ForEach(rooms.roomList, id: \.id) { room in
-                                Button {
-                                    selectedRoom = room.name
-                                } label: {
-                                    Text(rooms.parseRoomName(room.name))
+                                if let fixedRoom = viewModel.userData?.data.fixedRoom?.name,
+                                   room.name != fixedRoom {
+                                    Button {
+                                        selectedRoom = room.name
+                                    } label: {
+                                        Text(rooms.parseRoomName(room.name))
+                                    }
                                 }
                             }
                         } label: {
@@ -94,14 +102,14 @@ struct RegisterShift: View {
                                     .stroke(Color.gray.opacity(0.5))
                             )
                         }
-                        
+//                        
                     }
                     
                     VStack(alignment: .leading) {
                         Text("이동 교시")
                             .font(.system(size: 16, weight: .semibold))
                         
-                        HStack(spacing: 16){
+                        HStack(spacing: 0){
                             Menu {
                                 ForEach(periods, id: \.self) { period in
                                     Button {
@@ -132,7 +140,11 @@ struct RegisterShift: View {
                                 )
                             }
                             
+                            Spacer()
+                            
                             Text("~")
+                            
+                            Spacer()
                             
                             Menu {
                                 ForEach(periods, id: \.self) { period in
@@ -180,8 +192,35 @@ struct RegisterShift: View {
             .overlay {
                 VStack {
                     Spacer()
-                    NavigationLink {
-                        RegisterShift()
+                    Button {
+                        provider.request(.createShift(room: selectedRoom, reason: reason, period: selectedEndPeriod)) { result in
+                            switch result {
+                            case .success(let response):
+                                do {
+                                    let statusCode = response.statusCode
+                                    if statusCode == 400 {
+                                        let error = try response.map(ErrorModel.self)
+                                        print(error)
+                                        if (error.code == "PASSED_TIME") {
+                                            print("filter")
+                                            toastManager.showToast(message: "신청 실패", type: .error, detail: "이미 지난 교시입니다.")
+                                        } else {
+                                            toastManager.showToast(message: "신청 실패", type: .error, detail: "네트워크 에러")
+                                        }
+                                    } else {
+                                        print(try response.mapJSON())
+                                        toastManager.showToast(message: "신청이 완료되었습니다.")
+                                        dismiss()
+                                    }
+                                } catch {
+                                    toastManager.showToast(message: "신청 실패", type: .error, detail: "네트워크 에러")
+                                }
+                                break
+                            case .failure:
+                                toastManager.showToast(message: "신청 실패", detail: "네트워크 에러")
+                                break
+                            }
+                        }
                     } label: {
                         HStack(alignment: .center){
                             Text("신청하기")
@@ -200,6 +239,17 @@ struct RegisterShift: View {
         .padding(.horizontal, 16)
         .background(Color.background)
         .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.fetchUserData()
+        }
+        .overlay{
+            VStack(alignment: .leading, spacing: 0){
+                ToastContainer()
+                    .environmentObject(toastManager)
+                Spacer()
+            }
+            .padding(.top, 12)
+        }
     }
     
     

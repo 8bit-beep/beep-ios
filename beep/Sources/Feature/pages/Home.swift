@@ -22,50 +22,78 @@ struct Home: View {
                     Image("Phone")
                         .padding(.bottom, 36)
                     
-                    Button(action: {
-                        nfcReader.read()
-                        
-                        nfcReader.onRead = { scannedText in
-                            print("스캔된 데이터: \(scannedText)")
-                            provider.request(.attend(room: scannedText)) { result in
+                    Button{
+                        if let status = viewModel.userData?.data.status, status == "ATTEND" {
+                            provider.request(.cancelAttend) { result in
                                 switch result {
-                                case .success(let response):
-                                    do {
-                                        let statusCode = response.statusCode
-                                        if statusCode == 400 {
-                                            let error = try response.map(ErrorModel.self)
-                                            print(error)
-                                            if (error.code == "TIME_UNAVAILABLE") {
-                                                toastManager.showToast(message: "출석 실패", type: .error, detail: "출석할 수 없는 시간입니다.")
-                                            } else {
-                                                toastManager.showToast(message: "출석 실패", type: .error, detail: "네트워크 에러")
-                                            }
-                                            
-                                        } else {
-                                            print(try response.mapJSON())
-                                            viewModel.fetchUserData()
-                                            toastManager.showToast(message: "출석되었습니다.")
-                                        }
-                                    } catch {
-                                        print("❌ JSON 파싱 오류: \(error.localizedDescription)")
-                                    }
-                                case .failure(let error):
-                                    toastManager.showToast(message: "출석에 실패했습니다.", type: .error)
-                                    print("error: \(error)")
+                                case .success:
+                                    toastManager.showToast(message: "퇴실되었습니다.")
+                                    viewModel.fetchUserData()
+                                    break
+                                case .failure:
+                                    toastManager.showToast(message: "퇴실 실패", type: .error, detail: "네트워크 에러")
+                                    break
                                 }
                             }
+                        } else {
+                            nfcReader.read()
                             
+                            nfcReader.onRead = { scannedText in
+                                provider.request(.attend(room: scannedText)) { result in
+                                    switch result {
+                                    case .success(let response):
+                                        do {
+                                            let statusCode = response.statusCode
+                                            if statusCode == 400 {
+                                                let error = try response.map(ErrorModel.self)
+                                                print(error)
+                                                if (error.code == "TIME_UNAVAILABLE") {
+                                                    toastManager.showToast(message: "출석 실패", type: .error, detail: "출석할 수 없는 시간입니다.")
+                                                } else if (error.code == "ROOM_MISMATCH") {
+                                                    toastManager.showToast(message: "출석 실패", type: .error, detail: "다른 스터디실 입니다.")
+                                                }
+                                                else {
+                                                    toastManager.showToast(message: "출석 실패", type: .error, detail: "네트워크 에러")
+                                                }
+                                            } else {
+                                                toastManager.showToast(message: "출석되었습니다.")
+                                                viewModel.fetchUserData()
+                                            }
+                                        } catch {
+                                            print("❌ JSON 파싱 오류: \(error.localizedDescription)")
+                                        }
+                                        break
+                                    case .failure(let error):
+                                        toastManager.showToast(message: "출석에 실패했습니다.", type: .error)
+                                        print("error: \(error)")
+                                        break
+                                    }
+                                }
+                            }
                         }
-                    }) {
-                        VStack {
-                            Text("출석하기")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(.white)
+                    } label: {
+                        if let status = viewModel.userData?.data.status {
+                            VStack {
+                                Text(status == "ATTEND" ? "퇴실하기" : "출석하기")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.vertical, 18)
+                            .frame(maxWidth: .infinity)
+                            .background(status == "ATTEND" ? Color.red : Color.serveColor)
+                            .cornerRadius(10)
+                        } else {
+                            VStack {
+                                Text("출석하기")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.vertical, 18)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.serveColor)
+                            .cornerRadius(10)
                         }
-                        .padding(.vertical, 18)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.serveColor)
-                        .cornerRadius(10)
+                        
                     }
                 }
                 .padding(20)
