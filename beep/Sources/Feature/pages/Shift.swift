@@ -13,7 +13,8 @@ struct Shift: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var toastManager: ToastManager
     @State var isUpdated: Bool = false
-
+    @State private var isAnimating = false
+    
     var body: some View {
         VStack(spacing: 0){
             VStack(spacing: 0){
@@ -22,6 +23,23 @@ struct Shift: View {
                         .font(.system(size: 25, weight: .bold))
                         .foregroundColor(Color.dark)
                     Spacer()
+                    Button {
+                        viewModel.fetchShiftData()
+                        withAnimation(.spring(response: 0.5, dampingFraction: 0.5)) {
+                            isAnimating.toggle()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                                isAnimating.toggle()
+                            }
+                        }
+                    } label: {
+                        Image("Refresh")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .rotationEffect(.degrees(isAnimating ? 360 : 0))
+                            .scaleEffect(isAnimating ? 0.8 : 1.0)
+                    }
                 }
                 .padding(.vertical, 12)
                 .padding(.horizontal, 16)
@@ -50,13 +68,6 @@ struct Shift: View {
                                 .redacted(reason: .placeholder)
                                 .shimmering()
                                 Spacer()
-                                Button {
-                                    
-                                } label: {
-                                    Image("X").resizable().frame(width: 16, height: 16)
-                                }
-                                .redacted(reason: .placeholder)
-                                .shimmering()
                             }
                             .padding(16)
                             .frame(maxWidth: .infinity)
@@ -96,6 +107,9 @@ struct Shift: View {
                 }
                 .padding(.horizontal, 12)
                 .foregroundStyle(.black)
+                .refreshable {
+                    viewModel.fetchShiftData()
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.55)
             .background(Color.white)

@@ -21,18 +21,22 @@ struct Tabbar: View {
             Divider()
                 .opacity(0.2)
             HStack(alignment: .center) {
+                Spacer()
+                
                 Button {
                     currentTab = .shift
                 } label: {
                     VStack(alignment: .center, spacing: 4) {
                         Image(systemName: "rectangle.2.swap")
                             .font(.system(size: 16, weight: .bold))
-                        Text("실이동")
+                        Text("실 이동")
                             .font(.caption)
                     }
                 }
                 .foregroundStyle(currentTab == .shift ? Color.main : Color.dark)
-                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30);
+                .disabled(currentTab == .shift)
+                
+                Spacer()
                 
                 Button {
                     currentTab = .home
@@ -45,7 +49,9 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .home ? Color.main : Color.dark)
-                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30)
+                .disabled(currentTab == .home)
+                
+                Spacer()
                 
                 Button {
                     currentTab = .profile
@@ -58,14 +64,17 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .profile ? Color.main : Color.dark)
-                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30)
+                .disabled(currentTab == .profile)
+                
+                Spacer()
+                
             }
             .frame(width: UIScreen.main.bounds.width, height: 72)
             .padding(.bottom, 16)
             .background(Color.white)
         }
-        }
-        
+    }
+    
 }
 
 #Preview {

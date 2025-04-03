@@ -12,7 +12,12 @@ struct MainHeader: View {
         HStack(alignment: .center){
             Image("Logo").resizable().frame(width: 48, height: 43)
             Spacer()
-            Image("Info").resizable().frame(width: 30, height: 30)
+            Link(destination: URL(string: "https://thunder-bream-d76.notion.site/1c62ee22c3f68069b14fe2da853a6ac3?pvs=4")!) {
+                Image("Info")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+            }
+            
         }
     }
 }

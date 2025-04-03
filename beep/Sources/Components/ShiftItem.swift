@@ -20,13 +20,31 @@ struct ShiftItem: View {
             VStack(alignment: .leading, spacing: 4){
                 if let fixedRoom = shiftData.fixedRoom,
                    let shiftRoom = shiftData.shiftRoom {
-                    Text("\(room.parseRoomName(fixedRoom)) -> \(room.parseRoomName(shiftRoom))")
-                        .font(.system(size: 16, weight: .semibold))
+                    HStack(alignment: .center, spacing: 4){
+                        Text(room.parseRoomName(fixedRoom))
+                            .font(.system(size: 16, weight: .semibold))
+                        
+                        Image("ArrowRight")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                        
+                        Text(room.parseRoomName(shiftRoom))
+                            .font(.system(size: 16, weight: .semibold))
+                    }
+                    
                 }
                 
-                if let period = shiftData.period {
-                    Text("\(period)교시")
-                        .font(.system(size: 14, weight: .medium))
+                if let period = shiftData.period,
+                   let status = shiftData.status {
+                    HStack(alignment: .center, spacing: 4){
+                        Text("\(period)~\(period + 1)교시")
+                            .font(.system(size: 14, weight: .medium))
+                        Text("·")
+                        Text(status == "APPROVED" ? "승인됨" : status == "REJECTED" ? "거절됨" : "대기중")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(status == "APPROVED" ? Color.serveColor : status == "REJECTED" ? Color.red : Color.main)
+                    }
+                    
                 }
                     
                 if let reason = shiftData.reason {

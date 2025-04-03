@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Splash: View {
     var body: some View {
-        VStack(alignment: .center){
+        VStack(alignment: .center, spacing: 16){
             Spacer()
             Image("LogoWhite")
                 .resizable()

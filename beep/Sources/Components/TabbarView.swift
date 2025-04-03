@@ -17,7 +17,7 @@ struct TabbarView: View {
                         }
                     case .shift:
                         VStack{
-                            TabHeader(title: "실이동")
+                            TabHeader(title: "실 이동")
                             Shift()
                         }
                     case .profile:

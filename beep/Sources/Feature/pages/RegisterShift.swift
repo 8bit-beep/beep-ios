@@ -20,8 +20,7 @@ struct RegisterShift: View {
     @State private var selectedRoom: String = "이동할 실을 선택해주세요."
     
     var periods: [Int] = [8, 10]
-    @State private var selectedStartPeriod: Int = 8
-    @State private var selectedEndPeriod: Int = 11
+    @State private var selectedPeriod: Int = 8
     
     let provider = MoyaProvider<Api>(session: Session(interceptor: ApiInterceptor()))
     
@@ -31,7 +30,8 @@ struct RegisterShift: View {
                 Button{
                     dismiss()
                 } label: {
-                    Image("ChevronLeft").resizable().frame(width: 20, height: 24)
+                    Image("ChevronLeft")
+                        .resizable().frame(width: 20, height: 24)
                 }
                 Text("실 이동 신청하기").fontWeight(.bold).font(.system(size: 20)).foregroundStyle(Color.dark)
                 Spacer()
@@ -105,7 +105,6 @@ struct RegisterShift: View {
                                     .stroke(Color.gray.opacity(0.5))
                             )
                         }
-//                        
                     }
                     
                     VStack(alignment: .leading) {
@@ -116,17 +115,14 @@ struct RegisterShift: View {
                             Menu {
                                 ForEach(periods, id: \.self) { period in
                                     Button {
-                                        selectedStartPeriod = period
-                                        if selectedStartPeriod > selectedEndPeriod {
-                                            selectedEndPeriod = period
-                                        }
+                                        selectedPeriod = period
                                     } label: {
-                                        Text("\(period) ~ \(period + 1)교시")
+                                        Text("\(period)~\(period + 1)교시")
                                     }
                                 }
                             } label: {
                                 HStack {
-                                    Text("\(selectedStartPeriod) ~ \(selectedStartPeriod + 1)교시")
+                                    Text("\(selectedPeriod)~\(selectedPeriod + 1)교시")
                                         .foregroundColor(.primary)
                                     Spacer()
                                     Image(systemName: "chevron.down")
@@ -160,7 +156,7 @@ struct RegisterShift: View {
                 VStack {
                     Spacer()
                     Button {
-                        provider.request(.createShift(room: selectedRoom, reason: reason, period: selectedEndPeriod)) { result in
+                        provider.request(.createShift(room: selectedRoom, reason: reason, period: selectedPeriod)) { result in
                             switch result {
                             case .success(let response):
                                 do {
