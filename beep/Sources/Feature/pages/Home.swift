@@ -30,7 +30,7 @@ struct Home: View {
                         VStack{
                             HStack{
                                 Spacer()
-                                if viewModel.userData?.data.status != "ATTEND" {
+                                if viewModel.userData?.data.status == "ATTEND" {
                                     GifImage("zzz")
                                         .frame(width: 56, height: 56)
                                 } else {
@@ -46,12 +46,12 @@ struct Home: View {
                             Spacer()
                             Image("Phone")
                                 .resizable()
-                                .frame(width: 252, height: 240)
+                                .frame(width: 240, height: 240)
                                 .padding(.bottom, 36)
                         }
                         
                     }
-                    .frame(width: 300, height: 280)
+                    .frame(width: 240, height: 280)
                     
                     
                     
