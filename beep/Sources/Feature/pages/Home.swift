@@ -30,7 +30,7 @@ struct Home: View {
                         VStack{
                             HStack{
                                 Spacer()
-                                if viewModel.userData?.data.status == "ATTEND" {
+                                if viewModel.userData?.data.status != "ATTEND" {
                                     GifImage("zzz")
                                         .frame(width: 56, height: 56)
                                 } else {
