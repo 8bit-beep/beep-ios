@@ -3,30 +3,32 @@ import SwiftUI
 struct TabbarView: View {
     @State var currentTab: Tab = .home
     @StateObject private var toastManager = ToastManager()
+    @StateObject private var viewModel = UserViewModel()
     
     var body: some View {
         ZStack {
             VStack(spacing: 0){
-                switch currentTab {
-                case .home:
-                    VStack{
-                        MainHeader()
-                        Home()
-                            .environmentObject(toastManager)
-                    }
-                case .shift:
-                    VStack{
-                        TabHeader(title: "실이동")
-                        Shift()
-                            .environmentObject(toastManager)
-                    }
-                case .profile:
-                    VStack{
-                        TabHeader(title: "프로필")
-                        Profile()
-                            .environmentObject(toastManager)
+                Group {
+                    switch currentTab {
+                    case .home:
+                        VStack{
+                            MainHeader()
+                            Home()
+                        }
+                    case .shift:
+                        VStack{
+                            TabHeader(title: "실이동")
+                            Shift()
+                        }
+                    case .profile:
+                        VStack{
+                            TabHeader(title: "프로필")
+                            Profile()
+                        }
                     }
                 }
+                .environmentObject(toastManager)
+                .environmentObject(viewModel)
             }
             .padding(.horizontal, 16)
 

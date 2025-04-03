@@ -19,7 +19,7 @@ struct RegisterShift: View {
     var rooms = Room()
     @State private var selectedRoom: String = "이동할 실을 선택해주세요."
     
-    var periods: [Int] = [8, 9, 10, 11]
+    var periods: [Int] = [8, 10]
     @State private var selectedStartPeriod: Int = 8
     @State private var selectedEndPeriod: Int = 11
     
@@ -75,20 +75,22 @@ struct RegisterShift: View {
                         
                         Menu {
                             ForEach(rooms.roomList, id: \.id) { room in
-                                if let fixedRoom = viewModel.userData?.data.fixedRoom?.name,
-                                   room.name != fixedRoom {
+//                                if let fixedRoom = viewModel.userData?.data.fixedRoom?.name,
+//                                   room.name != fixedRoom {
                                     Button {
                                         selectedRoom = room.name
                                     } label: {
                                         Text(rooms.parseRoomName(room.name))
                                     }
-                                }
+//                                }
                             }
                         } label: {
                             HStack {
                                 Text(rooms.parseRoomName(selectedRoom))
                                     .foregroundColor(.primary)
+                                
                                 Spacer()
+                                
                                 Image(systemName: "chevron.down")
                                     .foregroundColor(.gray)
                             }
@@ -140,43 +142,7 @@ struct RegisterShift: View {
                                 )
                             }
                             
-                            Spacer()
-                            
-                            Text("~")
-                            
-                            Spacer()
-                            
-                            Menu {
-                                ForEach(periods, id: \.self) { period in
-                                    if period >= selectedStartPeriod {
-                                        Button {
-                                            selectedEndPeriod = period
-                                        } label: {
-                                            Text("\(period)교시")
-                                        }
-                                    }
-                                    
-                                }
-                            } label: {
-                                HStack {
-                                    Text("\(selectedEndPeriod)교시")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                    Image(systemName: "chevron.down")
-                                        .foregroundColor(.gray)
-                                }
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.white)
-                                )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.gray.opacity(0.5))
-                                )
-                            }
                         }
-                        
                         
                     }
                 }

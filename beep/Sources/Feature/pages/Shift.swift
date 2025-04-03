@@ -10,6 +10,7 @@ import Shimmer
 
 struct Shift: View {
     @StateObject private var viewModel = ShiftViewModel()
+    @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var toastManager: ToastManager
     @State var isUpdated: Bool = false
 
@@ -103,20 +104,25 @@ struct Shift: View {
             
             Spacer()
             
-            NavigationLink {
-                RegisterShift()
-                    .environmentObject(toastManager)
+            Button {
+                toastManager.showToast(message: "실을 설정해야합니다.", type: .error)
             } label: {
-                HStack(alignment: .center){
-                    Text("신청하기")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color.white)
+                NavigationLink {
+                    RegisterShift()
+                        .environmentObject(toastManager)
+                } label: {
+                    HStack(alignment: .center){
+                        Text("신청하기")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color.white)
+                    }
+                    .padding(20)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.dark)
+                    .cornerRadius(10)
+                    .shadow(color: .black.opacity(0.05), radius: 5)
                 }
-                .padding(20)
-                .frame(maxWidth: .infinity)
-                .background(Color.dark)
-                .cornerRadius(10)
-                .shadow(color: .black.opacity(0.05), radius: 5)
+                .disabled(userViewModel.userData?.data.fixedRoom == nil)
             }
         }
         .padding(.bottom, 106)

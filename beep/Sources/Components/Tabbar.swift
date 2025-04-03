@@ -15,6 +15,7 @@ enum Tab {
 
 struct Tabbar: View {
     @Binding var currentTab: Tab;
+    
     var body: some View {
         VStack(spacing: 0) {
             Divider()

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Profile: View {
-    @StateObject private var viewModel = UserViewModel()
+    @EnvironmentObject var viewModel: UserViewModel
     @EnvironmentObject private var toastManager: ToastManager
     @State private var modalView: Bool = true;
     let room = Room()

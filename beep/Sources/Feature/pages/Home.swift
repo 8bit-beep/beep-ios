@@ -2,9 +2,9 @@ import SwiftUI
 import Moya
 
 struct Home: View {
-    @StateObject private var viewModel = UserViewModel()
     @StateObject private var nfcReader = NFCReader()
     let provider = MoyaProvider<Api>(session: Session(interceptor: ApiInterceptor()))
+    @EnvironmentObject var viewModel: UserViewModel
     @EnvironmentObject private var toastManager: ToastManager
     let room = Room()
     
