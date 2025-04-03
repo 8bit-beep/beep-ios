@@ -36,6 +36,7 @@ struct RegisterShift: View {
                 Text("실 이동 신청하기").fontWeight(.bold).font(.system(size: 20)).foregroundStyle(Color.dark)
                 Spacer()
             }
+            .padding(.top, 8)
             .padding(.bottom, 12)
             ScrollView(.vertical, showsIndicators: false){
                 Spacer(minLength: 24)
@@ -75,14 +76,14 @@ struct RegisterShift: View {
                         
                         Menu {
                             ForEach(rooms.roomList, id: \.id) { room in
-//                                if let fixedRoom = viewModel.userData?.data.fixedRoom?.name,
-//                                   room.name != fixedRoom {
+                                if let fixedRoom = viewModel.userData?.data.fixedRoom?.name,
+                                   room.name != fixedRoom {
                                     Button {
                                         selectedRoom = room.name
                                     } label: {
                                         Text(rooms.parseRoomName(room.name))
                                     }
-//                                }
+                                }
                             }
                         } label: {
                             HStack {
@@ -120,12 +121,12 @@ struct RegisterShift: View {
                                             selectedEndPeriod = period
                                         }
                                     } label: {
-                                        Text("\(period)교시")
+                                        Text("\(period) ~ \(period + 1)교시")
                                     }
                                 }
                             } label: {
                                 HStack {
-                                    Text("\(selectedStartPeriod)교시")
+                                    Text("\(selectedStartPeriod) ~ \(selectedStartPeriod + 1)교시")
                                         .foregroundColor(.primary)
                                     Spacer()
                                     Image(systemName: "chevron.down")
@@ -164,11 +165,16 @@ struct RegisterShift: View {
                             case .success(let response):
                                 do {
                                     let statusCode = response.statusCode
+                                    
+                                    if response.data.isEmpty {
+                                        toastManager.showToast(message: "신청이 완료되었습니다.")
+                                        dismiss()
+                                        return
+                                    }
+
                                     if statusCode == 400 {
                                         let error = try response.map(ErrorModel.self)
-                                        print(error)
-                                        if (error.code == "PASSED_TIME") {
-                                            print("filter")
+                                        if error.code == "PASSED_TIME" {
                                             toastManager.showToast(message: "신청 실패", type: .error, detail: "이미 지난 교시입니다.")
                                         } else {
                                             toastManager.showToast(message: "신청 실패", type: .error, detail: "네트워크 에러")
@@ -179,6 +185,7 @@ struct RegisterShift: View {
                                         dismiss()
                                     }
                                 } catch {
+                                    print("catch: ", error)
                                     toastManager.showToast(message: "신청 실패", type: .error, detail: "네트워크 에러")
                                 }
                                 break
@@ -200,6 +207,7 @@ struct RegisterShift: View {
                         .shadow(color: .black.opacity(0.05), radius: 5)
                     }
                 }
+                .padding(.bottom, 16)
             }
         }
         .padding(.horizontal, 16)

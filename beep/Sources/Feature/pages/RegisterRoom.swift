@@ -20,14 +20,11 @@ struct RegisterRoom: View {
     var body: some View {
         VStack(spacing: 16){
             HStack(alignment: .center, spacing: 4){
-                Button{
-                    dismiss()
-                } label: {
-                    Image("ChevronLeft").resizable().frame(width: 20, height: 24)
-                }
                 Text("실 등록하기").fontWeight(.bold).font(.system(size: 20)).foregroundStyle(Color.dark)
                 Spacer()
             }
+            .padding(.top, 8)
+            .padding(.bottom, 12)
             
             Spacer()
             
@@ -61,7 +58,7 @@ struct RegisterRoom: View {
             Button {
                 provider.request(.changeRoom(room: selectedRoom)) { result in
                     if(selectedRoom == "등록할 실을 선택해주세요.") {
-                        dismiss()
+                        return
                     }
                     switch result {
                     case .success:
@@ -92,6 +89,14 @@ struct RegisterRoom: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.background)
         .navigationBarBackButtonHidden()
+        .overlay{
+            VStack(alignment: .leading, spacing: 0){
+                ToastContainer()
+                    .environmentObject(toastManager)
+                Spacer()
+            }
+            .padding(.top, 12)
+        }
     }
 }
 

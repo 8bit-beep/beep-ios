@@ -7,8 +7,15 @@ struct Home: View {
     @EnvironmentObject var viewModel: UserViewModel
     @EnvironmentObject private var toastManager: ToastManager
     let room = Room()
+    @State var navigateToRegister = false
     
     var body: some View {
+        if navigateToRegister {
+            NavigationLink(destination: RegisterRoom().environmentObject(toastManager), isActive: $navigateToRegister){
+                EmptyView()
+                    .frame(width: 0, height: 0)
+            }.frame(width: 0, height: 0)
+        }
         ScrollView(.vertical, showsIndicators: false){
             VStack(alignment: .center, spacing: 32){
                 VStack{
@@ -154,7 +161,15 @@ struct Home: View {
             .padding(.bottom, 128)
         }
         .onAppear {
+            navigateToRegister = false
+            
             viewModel.fetchUserData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if viewModel.userData?.data.fixedRoom?.name == nil {
+                    navigateToRegister = true
+                }
+            }
         }
     }
 }

@@ -10,25 +10,42 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var toastManager = ToastManager()
     @AppStorage("accessToken") var accessToken: String?
+    @State private var isLaunch: Bool = true
     
     var body: some View {
-        NavigationView {
-            if accessToken != nil {
-                TabbarView()
-                    .environmentObject(toastManager)
-            } else {
-                OnBoarding()
-                    .environmentObject(toastManager)
+        
+        if isLaunch {
+            Splash()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        withAnimation(.linear) {
+                            self.isLaunch = false
+                        }
+                    }
+                }
+        } else {
+            NavigationView {
+                if accessToken != nil {
+                    TabbarView()
+                        .environmentObject(toastManager)
+                } else {
+                    OnBoarding()
+                        .environmentObject(toastManager)
+                }
+            }.overlay{
+                VStack(alignment: .leading, spacing: 0){
+                    ToastContainer()
+                        .environmentObject(toastManager)
+                    Spacer()
+                }
+                .padding(.top, 12)
             }
             
-        }.overlay{
-            VStack(alignment: .leading, spacing: 0){
-                ToastContainer()
-                    .environmentObject(toastManager)
-                Spacer()
-            }
-            .padding(.top, 12)
         }
+        
+        
+        
+        
     }
 }
 

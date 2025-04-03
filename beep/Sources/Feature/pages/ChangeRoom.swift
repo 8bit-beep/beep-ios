@@ -28,6 +28,8 @@ struct ChangeRoom: View {
                 Text("실 변경하기").fontWeight(.bold).font(.system(size: 20)).foregroundStyle(Color.dark)
                 Spacer()
             }
+            .padding(.top, 8)
+            .padding(.bottom, 12)
             
             Spacer()
             
@@ -92,6 +94,14 @@ struct ChangeRoom: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.background)
         .navigationBarBackButtonHidden()
+        .overlay{
+            VStack(alignment: .leading, spacing: 0){
+                ToastContainer()
+                    .environmentObject(toastManager)
+                Spacer()
+            }
+            .padding(.top, 12)
+        }
     }
 }
 
