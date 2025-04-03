@@ -21,8 +21,6 @@ struct Tabbar: View {
             Divider()
                 .opacity(0.2)
             HStack(alignment: .center) {
-                Spacer()
-                
                 Button {
                     currentTab = .shift
                 } label: {
@@ -34,9 +32,7 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .shift ? Color.main : Color.dark)
-                .disabled(currentTab == .shift)
-                
-                Spacer()
+                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30);
                 
                 Button {
                     currentTab = .home
@@ -49,9 +45,7 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .home ? Color.main : Color.dark)
-                .disabled(currentTab == .home)
-                
-                Spacer()
+                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30)
                 
                 Button {
                     currentTab = .profile
@@ -64,17 +58,14 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .profile ? Color.main : Color.dark)
-                .disabled(currentTab == .profile)
-                
-                Spacer()
-                
+                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30)
             }
             .frame(width: UIScreen.main.bounds.width, height: 72)
             .padding(.bottom, 16)
             .background(Color.white)
         }
-    }
-    
+        }
+        
 }
 
 #Preview {
