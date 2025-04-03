@@ -26,8 +26,35 @@ struct Home: View {
                         Spacer()
                     }
                     
-                    Image("Phone")
-                        .padding(.bottom, 36)
+                    ZStack{
+                        VStack{
+                            HStack{
+                                Spacer()
+                                if viewModel.userData?.data.status != "ATTEND" {
+                                    GifImage("zzz")
+                                        .frame(width: 56, height: 56)
+                                } else {
+                                    Spacer()
+                                    Spacer()
+                                    Image("Smile")
+                                    Spacer()
+                                }
+                            }
+                            Spacer()
+                        }
+                        VStack{
+                            Spacer()
+                            Image("Phone")
+                                .resizable()
+                                .frame(width: 252, height: 240)
+                                .padding(.bottom, 36)
+                        }
+                        
+                    }
+                    .frame(width: 300, height: 280)
+                    
+                    
+                    
                     
                     Button{
                         if let status = viewModel.userData?.data.status, status == "ATTEND" {

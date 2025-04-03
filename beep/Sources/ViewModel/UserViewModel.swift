@@ -17,9 +17,13 @@ class UserViewModel: ObservableObject {
                     }
                 } catch {
                     print("❌ JSON 디코딩 실패: \(error.localizedDescription)")
+                    UserDefaults.standard.removeObject(forKey: "accessToken")
+                    UserDefaults.standard.removeObject(forKey: "refreshToken")
                 }
             case .failure(let error):
                 print("❌ API 호출 실패: \(error.localizedDescription)")
+                UserDefaults.standard.removeObject(forKey: "accessToken")
+                UserDefaults.standard.removeObject(forKey: "refreshToken")
             }
         }
     }
