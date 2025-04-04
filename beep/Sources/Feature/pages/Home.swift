@@ -187,16 +187,17 @@ struct Home: View {
             .padding(.top, 16)
             .padding(.bottom, 128)
         }
+        .onReceive(viewModel.$userData) { userData in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if userData?.data != nil, userData?.data.fixedRoom?.name == nil {
+                    navigateToRegister = true
+                }
+            }
+        }
         .onAppear {
             navigateToRegister = false
             
             viewModel.fetchUserData()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                if viewModel.userData?.data.fixedRoom?.name == nil {
-                    navigateToRegister = true
-                }
-            }
         }
     }
 }
