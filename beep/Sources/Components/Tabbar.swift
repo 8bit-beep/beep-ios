@@ -21,7 +21,10 @@ struct Tabbar: View {
             Divider()
                 .opacity(0.2)
             HStack(alignment: .center) {
+                Spacer()
+                
                 Button {
+                    HapticManager.instance.impact(style: .heavy)
                     currentTab = .shift
                 } label: {
                     VStack(alignment: .center, spacing: 4) {
@@ -32,9 +35,12 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .shift ? Color.main : Color.dark)
-                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30);
+                .disabled(currentTab == .shift)
+                
+                Spacer()
                 
                 Button {
+                    HapticManager.instance.impact(style: .heavy)
                     currentTab = .home
                 } label: {
                     VStack(alignment: .center, spacing: 4) {
@@ -45,9 +51,12 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .home ? Color.main : Color.dark)
-                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30)
+                .disabled(currentTab == .home)
+                
+                Spacer()
                 
                 Button {
+                    HapticManager.instance.impact(style: .heavy)
                     currentTab = .profile
                 } label: {
                     VStack(alignment: .center, spacing: 4) {
@@ -58,7 +67,9 @@ struct Tabbar: View {
                     }
                 }
                 .foregroundStyle(currentTab == .profile ? Color.main : Color.dark)
-                .padding(.horizontal, UIScreen.main.bounds.width/6 - 30)
+                .disabled(currentTab == .profile)
+                
+                Spacer()
             }
             .frame(width: UIScreen.main.bounds.width, height: 72)
             .padding(.bottom, 16)

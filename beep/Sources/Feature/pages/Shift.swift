@@ -24,6 +24,7 @@ struct Shift: View {
                         .foregroundColor(Color.dark)
                     Spacer()
                     Button {
+                        HapticManager.instance.impact(style: .light)
                         viewModel.fetchShiftData()
                         withAnimation(.spring(response: 0.5, dampingFraction: 0.5)) {
                             isAnimating.toggle()
@@ -87,13 +88,6 @@ struct Shift: View {
                                 .redacted(reason: .placeholder)
                                 .shimmering()
                                 Spacer()
-                                Button {
-                                    
-                                } label: {
-                                    Image("X").resizable().frame(width: 16, height: 16)
-                                }
-                                .redacted(reason: .placeholder)
-                                .shimmering()
                             }
                             .padding(16)
                             .frame(maxWidth: .infinity)
