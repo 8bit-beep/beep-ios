@@ -19,7 +19,7 @@ struct Shift: View {
         VStack(spacing: 0){
             VStack(spacing: 0){
                 HStack{
-                    Text("실 이동 신청 목록")
+                    Text("신청 목록")
                         .font(.system(size: 25, weight: .bold))
                         .foregroundColor(Color.dark)
                     Spacer()

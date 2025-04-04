@@ -42,7 +42,7 @@ struct RegisterShift: View {
                 Spacer(minLength: 24)
                 VStack(alignment: .leading ,spacing: 32) {
                     HStack{
-                        Text("실 이동 신청하기")
+                        Text("이동 내용")
                             .font(.system(size: 25, weight: .bold))
                             .foregroundColor(Color.dark)
                         Spacer()
