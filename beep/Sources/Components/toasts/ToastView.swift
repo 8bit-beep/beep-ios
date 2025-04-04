@@ -22,16 +22,31 @@ struct ToastView: View {
                         .resizable()
                         .frame(width: 40, height: 40)
                         .foregroundStyle(toastType == .success ? Color.green : Color.red)
+                    
                     VStack(alignment: .leading, spacing: 4) {
                         Text(message)
                             .font(.system(size: 18))
                         
-                        if (!detail.isEmpty) {
+                        if !detail.isEmpty {
                             Text(detail)
                                 .font(.system(size: 14, weight: .light))
                         }
                     }
+                    
                     Spacer()
+                    
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isVisible = false
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            onDismiss?()
+                        }
+                    } label: {
+                        Image("X")
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                    }
                 }
                 .padding(.horizontal, 16)
                 .frame(width: UIScreen.main.bounds.width - 32, height: 80)
