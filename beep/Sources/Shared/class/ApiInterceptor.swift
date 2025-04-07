@@ -40,7 +40,6 @@ final class ApiInterceptor: RequestInterceptor, @unchecked Sendable {
                 do {
                     let tokenData = try response.map(LoginModel.self)
                     UserDefaults.standard.set(tokenData.accessToken, forKey: "accessToken")
-                    UserDefaults.standard.set(tokenData.refreshToken, forKey: "refreshToken")
                     completion(.retry)
                 } catch {
                     print("❌ 토큰 파싱 실패: \(error.localizedDescription)")

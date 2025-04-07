@@ -71,6 +71,7 @@ struct Login: View {
                                         UserDefaults.standard.setValue(tokenData.accessToken, forKey: "accessToken")
                                         UserDefaults.standard.setValue(tokenData.refreshToken, forKey: "refreshToken")
                                         print(tokenData.accessToken)
+                                        print(tokenData.refreshToken)
                                         toastManager.showToast(message: "로그인 성공")
                                     } catch{
                                         toastManager.showToast(message: "로그인 실패", type: .error, detail:"네트워크 에러")
