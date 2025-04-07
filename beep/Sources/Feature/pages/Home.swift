@@ -60,9 +60,25 @@ struct Home: View {
                         if let status = viewModel.userData?.data.status, status == "ATTEND" {
                             provider.request(.cancelAttend) { result in
                                 switch result {
-                                case .success:
-                                    toastManager.showToast(message: "퇴실되었습니다.")
-                                    viewModel.fetchUserData()
+                                case .success(let response):
+                                    do {
+                                        let statusCode = response.statusCode
+                                        if statusCode == 400 {
+                                            let error = try response.map(ErrorModel.self)
+                                            print(error)
+                                            if (error.code == "TIME_UNAVAILABLE") {
+                                                toastManager.showToast(message: "퇴실 실패", type: .error, detail: "퇴실할 수 없는 시간입니다.")
+                                            } else {
+                                                toastManager.showToast(message: "퇴실 실패", type: .error, detail: "네트워크 에러")
+                                            }
+                                        } else {
+                                            toastManager.showToast(message: "퇴실되었습니다.")
+                                            viewModel.fetchUserData()
+                                        }
+                                    } catch {
+                                        toastManager.showToast(message: "퇴실 실패", type: .error, detail: "네트워크 에러")
+                                    }
+                                    
                                     break
                                 case .failure:
                                     toastManager.showToast(message: "퇴실 실패", type: .error, detail: "네트워크 에러")
