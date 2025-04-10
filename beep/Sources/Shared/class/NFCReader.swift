@@ -54,4 +54,8 @@ public class NFCReader: NSObject, NFCNDEFReaderSessionDelegate, ObservableObject
         
         return String(data: payload.subdata(in: (1 + languageCodeLength)..<payload.count), encoding: encoding)
     }
+    
+    public func clearData() {
+        self.raw = ""
+    }
 }

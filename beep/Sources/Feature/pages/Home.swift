@@ -86,6 +86,7 @@ struct Home: View {
                                 }
                             }
                         } else {
+                            nfcReader.clearData()
                             nfcReader.read()
                             
                             nfcReader.onRead = { scannedText in
@@ -119,7 +120,9 @@ struct Home: View {
                                         break
                                     }
                                 }
+                                nfcReader.clearData()
                             }
+                            
                         }
                     } label: {
                         if let status = viewModel.userData?.data.status {
